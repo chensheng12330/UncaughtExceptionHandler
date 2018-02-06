@@ -92,7 +92,7 @@
     UIColor *tintColor = UIColorBlue;//[QDThemeManager sharedInstance].currentTheme.themeGridItemTintColor;
     if (tintColor) {
         //button.tintColor = tintColor;
-        button.adjustsImageTintColorAutomatically = YES;
+        button.adjustsImageTintColorAutomatically = NO;
     } else {
         //button.tintColor = nil;
         button.adjustsImageTintColorAutomatically = NO;
@@ -107,6 +107,10 @@
 - (void)handleGirdButtonEvent:(QDCommonGridButton *)button {
     NSString *keyName = self.dataSource.allKeys[button.tag];
     [self didSelectCellWithTitle:keyName];
+    
+    
+    NSArray *ar = @[];
+    ar[2];
 }
 
 
@@ -119,7 +123,7 @@
 }
 
 - (void)didSelectCellWithTitle:(NSString *)title {
-    
+
 }
 
 @end

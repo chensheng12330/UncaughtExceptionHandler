@@ -6,6 +6,18 @@
 //  Copyright © 2018年 sherwin.chen. All rights reserved.
 //
 
+/*
+ NSInvalidArgumentException
+ NSRangeException
+ NSGenericException
+ NSInternalInconsistencyException
+ NSFileHandleOperationException
+ NSInvalidArgumentException
+
+ */
+
+
+
 #import "ViewController.h"
 
 #define IMG_COL(color) [UIImage qmui_imageWithColor:color size:CGSizeMake(40, 40) cornerRadius:3.f]
@@ -19,7 +31,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
     [self setupUI];
     
 }
@@ -35,7 +46,7 @@
 - (void)initDataSource {
     
     self.dataSource = [[QMUIOrderedDictionary alloc] initWithKeysAndObjects:
-                       @"数组越界", [UIImage qmui_imageWithColor:UIColorYellow size:CGSizeMake(40, 40) cornerRadius:3.f],
+                       @"数组越界", [UIImage qmui_imageWithColor:UIColorBlue size:CGSizeMake(40, 40) cornerRadius:3.f],
                        @"野指针", [UIImage qmui_imageWithColor:UIColorYellow size:CGSizeMake(40, 40) cornerRadius:3.f],nil
                        ];
     

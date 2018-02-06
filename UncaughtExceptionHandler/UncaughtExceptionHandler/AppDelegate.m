@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "UncaughtExceptionHandler.h"
 
 @interface AppDelegate ()
 
@@ -18,6 +19,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    [UncaughtExceptionHandler installUncaughtException:^(NSString *exceptionStr) {
+        
+        //NSLog(exceptionStr);
+    }];
+    
+    [self debugTest];
+    
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
@@ -56,6 +65,14 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+-(void) debugTest {
+    NSString *str = [UncaughtExceptionHandler exceptionDocumentsDirectory];
+    NSLog(str);
+    
+    NSArray *arLi = [UncaughtExceptionHandler exceptionFileList];
+    NSLog(arLi);
 }
 
 

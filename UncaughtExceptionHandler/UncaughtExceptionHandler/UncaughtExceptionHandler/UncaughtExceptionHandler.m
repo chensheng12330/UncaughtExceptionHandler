@@ -9,26 +9,44 @@
 #import "UncaughtExceptionHandler.h"
 #include <libkern/OSAtomic.h>
 #include <execinfo.h>
+#include <sys/utsname.h>
 
+#include <mach-o/dyld.h>
+#include <mach-o/loader.h>
 
 NSString * const UncaughtExceptionHandlerSignalExceptionName = @"UncaughtExceptionHandlerSignalExceptionName";
-NSString * const UncaughtExceptionHandlerSignalKey = @"UncaughtExceptionHandlerSignalKey";
+NSString * const UncaughtExceptionHandlerSignalKey    = @"UncaughtExceptionHandlerSignalKey";
 NSString * const UncaughtExceptionHandlerAddressesKey = @"UncaughtExceptionHandlerAddressesKey";
 
-volatile int32_t UncaughtExceptionCount = 0;
-const int32_t UncaughtExceptionMaximum = 10;
+#define ExceptionDirectoryName (@"Exception")
+#define SH_F ([NSFileManager defaultManager])
+
+//volatile int32_t UncaughtExceptionCount = 0;
+//const int32_t UncaughtExceptionMaximum = 10;
 
 
 static NSUncaughtExceptionHandler *_previousHandler;
+static NSString* gob_ExceptionPath=nil;
 
+///////////////全局方法(C 函数接口)////////////////
+/**
+ Exception 类型
+ */
 void ueh_HandleException(NSException *exception);
+
+/**
+ 信号异常类型
+ */
 void ueh_SignalHandler(int signal);
+
 //NSString* getAppInfo();
+///////////////////////////////
 
 
 @interface UncaughtExceptionHandler()
 
 @property (assign, nonatomic) BOOL needCrashShowAlert;
+@property (assign, nonatomic) BOOL dismissed;
 @end
 
 @implementation UncaughtExceptionHandler
@@ -36,16 +54,9 @@ void ueh_SignalHandler(int signal);
 
 /**
  设置异常处理句柄
- 
- @param  crashShowAlert 是否需要在崩溃时弹提示框（YES Or NO）
-
  */
 
-+ (void)installUncaughtExceptionHandler:(BOOL)crashShowAlert {
-    
-    if (crashShowAlert) {
-        [[self alloc] alertView:crashShowAlert];
-    }
++ (void)installUncaughtException:(GetExceptionBlock) getExceptionInfo{
     
     //获取已经设置过的异常句柄.
     _previousHandler = NSGetUncaughtExceptionHandler();
@@ -53,19 +64,96 @@ void ueh_SignalHandler(int signal);
     // 设置自己处理异常的handler （ueh_HandleException 是自己处理异常的方法）
     NSSetUncaughtExceptionHandler(ueh_HandleException);
     
+    // 系统异常信号
     signal(SIGABRT, ueh_SignalHandler);
     signal(SIGILL,  ueh_SignalHandler);
     signal(SIGSEGV, ueh_SignalHandler);
     signal(SIGFPE,  ueh_SignalHandler);
     signal(SIGBUS,  ueh_SignalHandler);
     signal(SIGPIPE, ueh_SignalHandler);
-}
-
-- (void)alertView:(BOOL)show {
     
-    self.needCrashShowAlert = show;
+    NSString *exceptionLog = [[self class] readDataFromLocal];
+    if (exceptionLog.length>0) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            getExceptionInfo(exceptionLog);
+        });
+    }
+    
+    return;
 }
 
+#pragma mark - SH 异常存储目录
++ (NSString*) exceptionDocumentsDirectory {
+    
+    if (gob_ExceptionPath.length>0) {
+        //如果已设置，直接返回文件夹路径.
+        return gob_ExceptionPath;
+    }
+    
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *exceptionPath = [docPath stringByAppendingPathComponent:ExceptionDirectoryName];
+    
+    if(![SH_F fileExistsAtPath:exceptionPath isDirectory:nil]) {
+        //创建文件夹
+        [SH_F createDirectoryAtPath:exceptionPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    gob_ExceptionPath = exceptionPath;
+    return gob_ExceptionPath;
+}
+
++ (NSArray<NSString*> *) exceptionFileList {
+    
+    NSArray * arExceptionFiles = [SH_F contentsOfDirectoryAtPath:[UncaughtExceptionHandler exceptionDocumentsDirectory] error:nil];
+    
+    return arExceptionFiles;
+}
+
+#pragma mark - SH 异常信息 读/写
+
+//写
++ (void) saveDataWithException:(NSException *)exception {
+    
+    NSString *strDate = [[self class] getLocalDate];
+    
+    NSString *exceptionInfo = [NSString stringWithFormat:
+                               @"\n--------\tLog Exception\t--------\n\n  Time   : [%@]\n  %@\n  exception name      :%@\n  exception reason    :%@\n  exception userInfo  :%@\n  callStackSymbols    :%@\n\n--------\tEnd Log Exception\t--------",
+                               strDate,
+                               [UncaughtExceptionHandler getAppInfo],
+                               exception.name,
+                               exception.reason,
+                               exception.userInfo ? : @"no user info", [exception callStackSymbols]
+                               
+                               ];
+    
+    NSString *strCrashPath = [[[self class] exceptionDocumentsDirectory] stringByAppendingPathComponent:strDate];
+    
+    [exceptionInfo writeToFile:strCrashPath atomically:YES encoding:4 error:nil];
+    
+    return;
+}
+
+//读
++(NSString*) readDataFromLocal {
+    
+    NSMutableString *strAllLog = [[NSMutableString alloc] init];
+    
+    NSArray * arCrashFiles = [[self class] exceptionFileList];
+    
+    for (NSString *crashFileName in arCrashFiles) {
+        NSString *crashFilePath  = [[[self class] exceptionDocumentsDirectory] stringByAppendingPathComponent:crashFileName];
+        
+        NSString *strCrashLog = [NSString stringWithContentsOfFile:crashFilePath encoding:4 error:nil];
+        
+        if (strCrashLog.length>0) {
+            [strAllLog appendFormat:@"\n %@", strCrashLog];
+        }
+    }
+    
+    return strAllLog.length>0?strAllLog:nil;
+}
+
+#pragma mark - SH 核心-异常信息处理
 //获取调用堆栈
 + (NSArray *)backtrace {
     
@@ -91,81 +179,76 @@ void ueh_SignalHandler(int signal);
     return backtrace;
 }
 
-//处理报错信息
-- (void)validateAndSaveCriticalApplicationData:(NSException *)exception {
-    
-    NSString *exceptionInfo = [NSString stringWithFormat:@"\n--------Log Exception---------\n\nexception name      :%@\nexception reason    :%@\nexception userInfo  :%@\ncallStackSymbols    :%@\n\n--------End Log Exception-----",exception.name, exception.reason, exception.userInfo ? : @"no user info", [exception callStackSymbols]];
-    
-    NSLog(@"%@", exceptionInfo);
-}
-
+// 异常处理入口
 - (void)handleException:(NSException *)exception {
     
-    //错误日志先给自己处理  再给友盟
-    [self validateAndSaveCriticalApplicationData:exception];
+    //存储日志
+    [[self class] saveDataWithException:exception];
     
     //将错误日志传递给其它监听者.
-    _previousHandler(exception);
-    
-    if ( !self.needCrashShowAlert) {
-        return;
+    if (_previousHandler) {
+        _previousHandler(exception);
     }
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    UIAlertView *alert =
-    [[UIAlertView alloc]
-     initWithTitle:UEH_CrashAlertTitle
-     message:[NSString stringWithFormat:UEH_CrashAlertContent]
-     delegate:self
-     cancelButtonTitle:UEH_CrashAlertButtonName
-     otherButtonTitles:nil];
-    [alert show];
-#pragma clang diagnostic pop
+}
+
+#pragma mark - SH 工具函数
+
++(NSString*) getLocalDate {
+    return  [[NSDate date] description];
+}
+
++(NSString*) getAppInfo {
     
+    struct utsname systemInfo;
+    uname(&systemInfo);
     
-    CFRunLoopRef runLoop = CFRunLoopGetCurrent();
-    CFArrayRef allModes = CFRunLoopCopyAllModes(runLoop);
+    NSString *appInfo = [NSString stringWithFormat:
+                         @"App    : %@ %@(%@)\n  Device : %@(%@)\n  Version: %@ %@\n  dSYM_ID: %@ \n",
+                         
+                         [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"],
+                         [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
+                         [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"],
+                         [UIDevice currentDevice].model,
+                         [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding],
+                         [UIDevice currentDevice].systemName,[UIDevice currentDevice].systemVersion,[[self class] dSYM_UUID] ];
+    return appInfo;
+}
+
++ (NSString *) dSYM_UUID {
+
+    const struct mach_header *executableHeader = NULL;
     
-//    while (!self.dismissed) {
-        //点击继续
-        for (NSString *mode in (__bridge NSArray *)allModes) {
-            //快速切换Mode
-            CFRunLoopRunInMode((CFStringRef)mode, 0.001, false);
+    for (uint32_t i = 0; i < _dyld_image_count(); i++) {
+        const struct mach_header *header = _dyld_get_image_header(i);
+        
+        if (header->filetype == MH_EXECUTE) {
+            executableHeader = header;
+            break;
         }
-//    }
-    
-    //点击退出
-    CFRelease(allModes);
-    
-    NSSetUncaughtExceptionHandler(NULL);
-    
-    signal(SIGABRT, SIG_DFL);
-    signal(SIGILL, SIG_DFL);
-    signal(SIGSEGV, SIG_DFL);
-    signal(SIGFPE, SIG_DFL);
-    signal(SIGBUS, SIG_DFL);
-    signal(SIGPIPE, SIG_DFL);
-    
-    if ([[exception name] isEqual:UncaughtExceptionHandlerSignalExceptionName]) {
-        
-        kill(getpid(), [[[exception userInfo] objectForKey:UncaughtExceptionHandlerSignalKey] intValue]);
-        
-    } else {
-        
-//        [exception raise];
     }
+    
+    if (!executableHeader) return nil;
+    
+    BOOL is64bit = executableHeader->magic == MH_MAGIC_64 || executableHeader->magic == MH_CIGAM_64;
+    uintptr_t cursor = (uintptr_t)executableHeader + (is64bit ? sizeof(struct mach_header_64) : sizeof(struct mach_header));
+    
+    const struct segment_command *segmentCommand = NULL;
+    for (uint32_t i = 0; i < executableHeader->ncmds; i++, cursor += segmentCommand->cmdsize) {
+        segmentCommand = (struct segment_command *)cursor;
+        
+        if (segmentCommand->cmd == LC_UUID) {
+            const struct uuid_command *uuidCommand = (const struct uuid_command *)segmentCommand;
+            return [[NSUUID alloc] initWithUUIDBytes:uuidCommand->uuid].UUIDString;
+        }
+    }
+    
+    return nil;
 }
 @end
 
 
 void ueh_HandleException(NSException *exception) {
-    
-    int32_t exceptionCount = OSAtomicIncrement32(&UncaughtExceptionCount);
-    // 如果太多不用处理
-    if (exceptionCount > UncaughtExceptionMaximum) {
-        return;
-    }
     
     //获取调用堆栈
     NSArray *callStack = [exception callStackSymbols];
@@ -184,12 +267,6 @@ void ueh_HandleException(NSException *exception) {
 
 //处理signal报错
 void ueh_SignalHandler(int signal) {
-    
-    int32_t exceptionCount = OSAtomicIncrement32(&UncaughtExceptionCount);
-    // 如果太多不用处理
-    if (exceptionCount > UncaughtExceptionMaximum) {
-        return;
-    }
     
     NSString* description = nil;
     switch (signal) {
@@ -230,15 +307,4 @@ void ueh_SignalHandler(int signal) {
      waitUntilDone:YES];
 }
 
-NSString* getAppInfo() {
-    
-    NSString *appInfo = [NSString stringWithFormat:@"App : %@ %@(%@)\nDevice : %@\nOS Version : %@ %@\n",
-                         [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"],
-                         [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
-                         [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"],
-                         [UIDevice currentDevice].model,
-                         [UIDevice currentDevice].systemName,
-                         [UIDevice currentDevice].systemVersion];
-    return appInfo;
-}
 
