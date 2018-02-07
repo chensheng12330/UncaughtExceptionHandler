@@ -22,6 +22,11 @@
     
     [UncaughtExceptionHandler installUncaughtException:^(NSString *exceptionStr) {
         
+        //1、进行数据上传
+        
+        //2、上传成功后，清除本地崩溃日志.
+        
+        [UncaughtExceptionHandler exceptionDocumentsClear];
         //NSLog(exceptionStr);
     }];
     
@@ -69,10 +74,10 @@
 
 -(void) debugTest {
     NSString *str = [UncaughtExceptionHandler exceptionDocumentsDirectory];
-    NSLog(str);
+    NSLog(@"%@", str);
     
     NSArray *arLi = [UncaughtExceptionHandler exceptionFileList];
-    NSLog(arLi);
+    NSLog(@"%@", arLi);
 }
 
 

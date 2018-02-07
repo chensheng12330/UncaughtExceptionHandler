@@ -106,7 +106,15 @@ void ueh_SignalHandler(int signal);
     
     NSArray * arExceptionFiles = [SH_F contentsOfDirectoryAtPath:[UncaughtExceptionHandler exceptionDocumentsDirectory] error:nil];
     
-    return arExceptionFiles;
+    NSMutableArray *filterArry = [NSMutableArray new];
+    
+    for (NSString *fileName in arExceptionFiles) {
+        if ([fileName hasPrefix:@"UE_"]) {
+            [filterArry addObject:fileName];
+        }
+    }
+    //
+    return filterArry;
 }
 
 #pragma mark - SH 异常信息 读/写
@@ -126,7 +134,7 @@ void ueh_SignalHandler(int signal);
                                
                                ];
     
-    NSString *strCrashPath = [[[self class] exceptionDocumentsDirectory] stringByAppendingPathComponent:strDate];
+    NSString *strCrashPath = [[[self class] exceptionDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"UE_%@",strDate]];
     
     [exceptionInfo writeToFile:strCrashPath atomically:YES encoding:4 error:nil];
     
@@ -151,6 +159,19 @@ void ueh_SignalHandler(int signal);
     }
     
     return strAllLog.length>0?strAllLog:nil;
+}
+
++ (void) exceptionDocumentsClear {
+    
+    NSArray * arCrashFiles = [[self class] exceptionFileList];
+    
+    for (NSString *crashFileName in arCrashFiles) {
+        NSString *crashFilePath  = [[[self class] exceptionDocumentsDirectory] stringByAppendingPathComponent:crashFileName];
+        
+        [SH_F removeItemAtPath:crashFilePath error:nil];
+    }
+    
+    return;
 }
 
 #pragma mark - SH 核心-异常信息处理
@@ -189,6 +210,7 @@ void ueh_SignalHandler(int signal);
     if (_previousHandler) {
         _previousHandler(exception);
     }
+    
     
 }
 
