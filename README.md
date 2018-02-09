@@ -121,7 +121,7 @@ NSSetUncaughtExceptionHandler(ueh_HandleException);
  
  Objective-C 作为基于 Runtime的语言，它有非常强大的动态特性，可以在运行期间自省、进行方法调剂、为类增加属性、修改消息转发链路，在代码运行期间通过 Runtime 几乎可以修改 Objecitve-C 层的一切类、方法以及属性。
  
- 对于runtime提供的API，我们只能操作NS体系的方法或函数 ，并不能去hook C的API函数。针对此情况，facebook开源三方框架 [fishhook](http://note.youdao.com/) ,其主要作用就是动态修改 C 语言函数实现。其详细介绍可进github查询，现在我们来实现拒绝第三方库收集异常的业务.
+ 对于runtime提供的API，我们只能操作NS体系的方法或函数 ，并不能去hook C的API函数。针对此情况，facebook开源三方框架 [fishhook](https://github.com/facebook/fishhook) ,其主要作用就是动态修改 C 语言函数实现。其详细介绍可进github查询，现在我们来实现拒绝第三方库收集异常的业务.
  
  实现的方式很简单：
  
