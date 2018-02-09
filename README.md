@@ -1,2 +1,0 @@
-# UncaughtExceptionHandler
-iOS For UncaughtExceptionHandler
