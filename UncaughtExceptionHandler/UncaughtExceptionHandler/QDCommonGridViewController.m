@@ -7,6 +7,7 @@
 //
 
 #import "QDCommonGridViewController.h"
+#import "LTBaseWebViewController.h"
 
 @interface QDCommonGridViewController ()
 
@@ -107,10 +108,6 @@
 - (void)handleGirdButtonEvent:(QDCommonGridButton *)button {
     NSString *keyName = self.dataSource.allKeys[button.tag];
     [self didSelectCellWithTitle:keyName];
-    
-    
-    NSArray *ar = @[];
-    //ar[2];
 }
 
 

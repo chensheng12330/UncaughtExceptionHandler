@@ -1,0 +1,357 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D48FADD1202D954200C9EB28 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48FADD0202D954200C9EB28 /* AppDelegate.swift */; };
+		D48FADD3202D954200C9EB28 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48FADD2202D954200C9EB28 /* ViewController.swift */; };
+		D48FADD6202D954200C9EB28 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D48FADD4202D954200C9EB28 /* Main.storyboard */; };
+		D48FADD8202D954200C9EB28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D48FADD7202D954200C9EB28 /* Assets.xcassets */; };
+		D48FADDB202D954200C9EB28 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D48FADD9202D954200C9EB28 /* LaunchScreen.storyboard */; };
+		D48FADE8202D966C00C9EB28 /* fishhook.c in Sources */ = {isa = PBXBuildFile; fileRef = D48FADE4202D966C00C9EB28 /* fishhook.c */; };
+		D48FADE9202D966C00C9EB28 /* UncaughtExceptionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = D48FADE7202D966C00C9EB28 /* UncaughtExceptionHandler.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		D48FADCD202D954200C9EB28 /* CrashSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CrashSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D48FADD0202D954200C9EB28 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D48FADD2202D954200C9EB28 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D48FADD5202D954200C9EB28 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D48FADD7202D954200C9EB28 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D48FADDA202D954200C9EB28 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D48FADDC202D954200C9EB28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D48FADE4202D966C00C9EB28 /* fishhook.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fishhook.c; sourceTree = "<group>"; };
+		D48FADE5202D966C00C9EB28 /* fishhook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fishhook.h; sourceTree = "<group>"; };
+		D48FADE6202D966C00C9EB28 /* UncaughtExceptionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UncaughtExceptionHandler.h; sourceTree = "<group>"; };
+		D48FADE7202D966C00C9EB28 /* UncaughtExceptionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UncaughtExceptionHandler.m; sourceTree = "<group>"; };
+		D48FADEA202D974A00C9EB28 /* Crash-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Crash-Bridging-Header.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D48FADCA202D954200C9EB28 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D48FADC4202D954200C9EB28 = {
+			isa = PBXGroup;
+			children = (
+				D48FADEA202D974A00C9EB28 /* Crash-Bridging-Header.h */,
+				D48FADCF202D954200C9EB28 /* CrashSwift */,
+				D48FADCE202D954200C9EB28 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D48FADCE202D954200C9EB28 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D48FADCD202D954200C9EB28 /* CrashSwift.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D48FADCF202D954200C9EB28 /* CrashSwift */ = {
+			isa = PBXGroup;
+			children = (
+				D48FADE2202D966C00C9EB28 /* UncaughtExceptionHandler */,
+				D48FADD0202D954200C9EB28 /* AppDelegate.swift */,
+				D48FADD2202D954200C9EB28 /* ViewController.swift */,
+				D48FADD4202D954200C9EB28 /* Main.storyboard */,
+				D48FADD7202D954200C9EB28 /* Assets.xcassets */,
+				D48FADD9202D954200C9EB28 /* LaunchScreen.storyboard */,
+				D48FADDC202D954200C9EB28 /* Info.plist */,
+			);
+			path = CrashSwift;
+			sourceTree = "<group>";
+		};
+		D48FADE2202D966C00C9EB28 /* UncaughtExceptionHandler */ = {
+			isa = PBXGroup;
+			children = (
+				D48FADE3202D966C00C9EB28 /* fishhook */,
+				D48FADE6202D966C00C9EB28 /* UncaughtExceptionHandler.h */,
+				D48FADE7202D966C00C9EB28 /* UncaughtExceptionHandler.m */,
+			);
+			path = UncaughtExceptionHandler;
+			sourceTree = "<group>";
+		};
+		D48FADE3202D966C00C9EB28 /* fishhook */ = {
+			isa = PBXGroup;
+			children = (
+				D48FADE4202D966C00C9EB28 /* fishhook.c */,
+				D48FADE5202D966C00C9EB28 /* fishhook.h */,
+			);
+			path = fishhook;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D48FADCC202D954200C9EB28 /* CrashSwift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D48FADDF202D954200C9EB28 /* Build configuration list for PBXNativeTarget "CrashSwift" */;
+			buildPhases = (
+				D48FADC9202D954200C9EB28 /* Sources */,
+				D48FADCA202D954200C9EB28 /* Frameworks */,
+				D48FADCB202D954200C9EB28 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CrashSwift;
+			productName = CrashSwift;
+			productReference = D48FADCD202D954200C9EB28 /* CrashSwift.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D48FADC5202D954200C9EB28 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = sherwin.chen;
+				TargetAttributes = {
+					D48FADCC202D954200C9EB28 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = D48FADC8202D954200C9EB28 /* Build configuration list for PBXProject "CrashSwift" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D48FADC4202D954200C9EB28;
+			productRefGroup = D48FADCE202D954200C9EB28 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D48FADCC202D954200C9EB28 /* CrashSwift */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D48FADCB202D954200C9EB28 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D48FADDB202D954200C9EB28 /* LaunchScreen.storyboard in Resources */,
+				D48FADD8202D954200C9EB28 /* Assets.xcassets in Resources */,
+				D48FADD6202D954200C9EB28 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D48FADC9202D954200C9EB28 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D48FADD3202D954200C9EB28 /* ViewController.swift in Sources */,
+				D48FADE9202D966C00C9EB28 /* UncaughtExceptionHandler.m in Sources */,
+				D48FADE8202D966C00C9EB28 /* fishhook.c in Sources */,
+				D48FADD1202D954200C9EB28 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		D48FADD4202D954200C9EB28 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D48FADD5202D954200C9EB28 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D48FADD9202D954200C9EB28 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D48FADDA202D954200C9EB28 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D48FADDD202D954200C9EB28 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D48FADDE202D954200C9EB28 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D48FADE0202D954200C9EB28 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = CrashSwift/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mmt.CrashSwift;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Crash-Bridging-Header.h";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D48FADE1202D954200C9EB28 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = CrashSwift/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mmt.CrashSwift;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Crash-Bridging-Header.h";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D48FADC8202D954200C9EB28 /* Build configuration list for PBXProject "CrashSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D48FADDD202D954200C9EB28 /* Debug */,
+				D48FADDE202D954200C9EB28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D48FADDF202D954200C9EB28 /* Build configuration list for PBXNativeTarget "CrashSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D48FADE0202D954200C9EB28 /* Debug */,
+				D48FADE1202D954200C9EB28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D48FADC5202D954200C9EB28 /* Project object */;
+}
