@@ -85,15 +85,17 @@ static void (*original_NSSetUncaughtExceptionHandler)(NSUncaughtExceptionHandler
     signal(SIGFPE,  ueh_SignalHandler);
     signal(SIGBUS,  ueh_SignalHandler);
     signal(SIGPIPE, ueh_SignalHandler);
-    
-    NSString *exceptionLog = [[self class] readDataFromLocal];
-    if (exceptionLog.length>0) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            getExceptionInfo(exceptionLog);
-        });
+
+    //如需要启动时返回已存的crash信息，则输出相关日志.
+    if(getExceptionInfo){
+        NSString *exceptionLog = [[self class] readDataFromLocal];
+        if (exceptionLog.length>0) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                getExceptionInfo(exceptionLog);
+            });
+        }
     }
-    
-    
+
     // 获取函数地址，并保存起来，用来进行交换.
     original_NSSetUncaughtExceptionHandler = dlsym(RTLD_DEFAULT, "NSSetUncaughtExceptionHandler");
     
@@ -167,7 +169,10 @@ static void (*original_NSSetUncaughtExceptionHandler)(NSUncaughtExceptionHandler
     NSString *strCrashPath = [[[self class] exceptionDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"UE_%@",strDate]];
     
     [exceptionInfo writeToFile:strCrashPath atomically:YES encoding:4 error:nil];
-    
+
+#if DEBUG
+    NSLog(@"%@",exceptionInfo);
+#endif
     return;
 }
 
